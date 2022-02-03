@@ -1,0 +1,94 @@
+<template>
+    <div id="app" class="app">
+      <!-- <div class="side-nav">
+        <side-nav></side-nav>
+      </div> -->
+      <div class="display">
+        <div class="text">
+          <h1>TRY IDMAKER</h1>
+          <p>It's Easy</p>
+        </div>
+      </div>
+      <div class="view">
+        <!-- <router-view></router-view> -->
+        <router-view></router-view>
+      </div>
+    </div>
+</template>
+
+<script>
+// import SideNav from './components/layout/SideNav'
+// import Login from './routes/auth/Login'
+
+export default {
+  name: 'App',
+  components: {
+    // SideNav
+    // Login
+  },
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  font-family: 'Lato', Arial, sans-serif;
+  display: flex;
+  color: #2a312a;
+  /* border: 2px solid red */
+}
+
+img {
+  /* width: 100%; */
+}
+
+.body {
+    padding: 20px;
+ }
+
+.display{
+  flex: 3;
+  background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('./assets/bg.jpg');
+  background-size: cover;
+}
+
+.view {
+  flex: 2;
+  background-color: #f3f3f3;
+  height: 100vh;
+  overflow: auto;
+  /* padding: 20px; */
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 3px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.text {
+  color: #fff;
+  padding-top: 20em;
+  text-align: center;
+}
+</style>
+
+
+- employee signature
+- expiry date
+- page not minimizing
+- 
