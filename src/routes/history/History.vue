@@ -2,7 +2,7 @@
     <div class="history">
         <Header v-on:search-records="searchRecords"/>
         <div class="record">
-            <Record :persons="persons" v-on:get-records="getRecords" v-on:sort-record="sortRecord"/>
+            <Record :persons="persons" v-on:get-records="getRecords" v-on:sort-record="sortRecord" :limit="100000"/>
         </div>
     </div>
 </template>

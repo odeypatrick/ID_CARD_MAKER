@@ -11,8 +11,8 @@
       </div>
 
       <div class="links">
-          <router-link to="/" active-class="active" exact><i class="fa fa-home"></i> Dashboard</router-link>
-          <router-link to="/history" active-class="active" exact><i class="fa fa-clock"></i> History</router-link>
+          <router-link to="/" active-class="active" exact><i class="fa fa-laptop"></i> Dashboard</router-link>
+          <router-link to="/history" active-class="active" exact><i class="fa fa-book"></i> Records</router-link>
           <router-link to="/settings" active-class="active" exact><i class="fa fa-cog"></i> Settings</router-link>
       </div>
 
@@ -104,5 +104,9 @@ export default {
 
     .active {
         background-color:#032537;
+    }
+
+    .fa-book, .fa-laptop, .fa-cog {
+        margin-right: 4px;
     }
 </style>

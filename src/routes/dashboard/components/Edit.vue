@@ -1,11 +1,20 @@
 <template>
   <div class="edit-page">
-      <!-- <center>
-          <h2 style="padding-bottom: 20px">Edit Record</h2>
-      </center> -->
       <form>
           <h1 class="head">Edit Employee Record</h1>
         <div>
+            <div class="error" v-if="error">
+                <span class="err-text">
+                    {{ error }}
+                </span>
+                <span @click="error = ''" class="close">
+                    &times;
+                </span>
+            </div>
+          <div class="msg" v-if="msg">  
+              <span>{{ msg }}</span>
+              <span class="close" @click="msg = ''">&times;</span>
+          </div>
             <div>
                 <label>Name</label>
                 <div>
@@ -50,7 +59,7 @@
             </div>
         </div>
         <div>
-            <button>
+            <button @click.prevent="editInfo">
                 Edit Record
             </button>
         </div>
@@ -65,23 +74,73 @@ export default {
     data(){
         return {
             info: {
+                id: "",
                 name: "",
                 cardId: "",
                 department: "",
                 role: "",
-                expiryDate: ""
-            }
+                expiryDate: "",
+                prevImg: "",
+                prevSig: "",
+                signature: "",
+                image: ""
+            },
+            msg: "",
+            error: ""
         }
     },
     created(){
         axios.get(`https://nameless-basin-94170.herokuapp.com/api/record/${this.$route.params.id}`)
         .then(res => {
+            this.info.id = res.data._id
             this.info.name = res.data.name
             this.info.cardId = res.data.cardId
             this.info.department = res.data.department
             this.info.role = res.data.role
             this.info.expiryDate = res.data.expiryDate
+            this.info.prevImg = res.data.picture,
+            this.info.prevSig = res.data.signature
         })
+        .catch(err => this.error = err)
+    },
+    methods: {
+        onFileChange(e) {
+            const files = e.target.files || e.dataTransfer.files;
+            if(!files.length)
+                return
+            this.info.image = files[0]
+            // this.createImage(files[0])
+        },
+        onFileChange2(e) {
+            const files = e.target.files || e.dataTransfer.files;
+            if(!files.length)
+                return
+            this.info.signature = files[0]
+            // this.createImage2(files[0])
+        },
+        editInfo() {
+            const formData = new FormData();
+            formData.append("name", this.info.name)
+            formData.append("cardId", this.info.cardId)
+            formData.append("department", this.info.department)
+            formData.append("role", this.info.role)
+            formData.append("expiryDate", this.info.expiryDate)
+            formData.append("prevImg", this.info.prevImg)
+            formData.append("prevSig", this.info.prevSig)
+            formData.append("image", this.info.image)
+            formData.append("signature", this.info.signature)
+            axios.put(`https://nameless-basin-94170.herokuapp.com/api/card/${this.info.id}`, formData)
+            .then(() => {
+                this.msg = "Info Updated",
+                setTimeout(() => {
+                    this.$router.push('/')
+                },1500)
+            })
+            .catch(err => {
+                console.log(err)
+                this.error = err
+            })
+        }
     }
 }
 </script>

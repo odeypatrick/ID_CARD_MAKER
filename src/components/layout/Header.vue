@@ -12,14 +12,19 @@
 
                 <div class="links">
                     <nav>
-                        <ul class="right">
+                        <ul>
                             <li v-if="!isAuth">
                                 <router-link to="/login"><i class="fa fa-user"></i> Login</router-link>
                             </li>
-                            <li class="user" v-else>
-                                <img src="../../assets/noAvatar.png" alt="">
-                                <span>Welcome Admin <i class="fa fa-angle-down"></i></span>
-                            </li> 
+                            <div class="right" v-else @click="showDrop = !showDrop">
+                                <li class="user">
+                                    <img src="../../assets/noAvatar.png" alt="">
+                                </li> 
+                                <span style="font-size: 12px; font-weight: bold">{{ user.username }} <i class="fa fa-angle-down"  style="margin-left: 5px;"></i></span>
+                                <div class="drop-down" v-if="showDrop">
+                                    <p @click="$store.dispatch('logout')">Logout</p>
+                                </div>
+                            </div>
                         </ul>
                     </nav>
                 </div>
@@ -30,10 +35,18 @@
 
 <script>
 export default {
+    computed: {
+        isAuth(){
+            return this.$store.getters.isAuthenticated;
+        },
+        user(){
+            return this.$store.getters.user;
+        }
+    },
     data(){
         return {
-            isAuth: false,
-            search: ""
+            search: "",
+            showDrop: false
         }
     },
     methods: {
@@ -58,6 +71,28 @@ export default {
     left: 0;
     color: #090909;
     box-shadow: 0 0 6px 0 #ccc;
+}
+
+.drop-down {
+    /* height: 100px; */
+    width: fit-content;
+    position: absolute;
+    z-index: 100;
+    width: 100px;
+    background: #fff;
+    box-shadow: 0 0 4px 2px #ccc;
+    top: 24px;
+    right: 0;
+}
+
+.drop-down p {
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.drop-down p:hover {
+    background-color: #f3f3f3;
 }
 
 .logo {
@@ -120,6 +155,8 @@ export default {
     display: flex;
     align-items: center;
     font-size: 12px;
+    cursor: pointer;
+    position: relative;
 }
 
 .right li {

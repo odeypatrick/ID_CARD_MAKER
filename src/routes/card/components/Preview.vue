@@ -4,21 +4,21 @@
         <div class="front">
         <h3>Front View <input type="radio" value="card" v-model="elemId"> </h3>
         <div class="card" id="card">
-            <h1 class="logo green">
+            <div class="logo green sec">
               <img src="../../../assets/logo2.png" alt="" width="100">
-            </h1>
-            <p class="green field">Federal Ministry of Communication and Digital Economy</p>
-            <p class="abbr">National Indentity Management Commission</p>
-            <div class="id_number red">{{ info.id }}</div>
-            <div class="image-holder">
-            <img :src="info.image ? info.image : require('../../../assets/noAvatar.png')" alt="">
             </div>
-            <div class="holder-name">{{ info.name }}</div>
-            <div class="holder-role red" style="font-size: 12px">{{ info.role }}</div>
-            <div class="holder-department green" style="font-size: 11px">{{ info.department }}</div>
-            <div class="employee-signature">
+            <p class="green field sec">Federal Ministry of Communications and Digital Economy</p>
+            <p class="abbr sec">National Indentity Management Commission</p>
+            <div class="id_number red sec">{{ info.id }}</div>
+            <div class="image-holder sec">
+              <img :src="info.image ? info.image : require('../../../assets/noAvatar.png')" alt="">
+            </div>
+            <div class="holder-name sec" >{{ info.name }}</div>
+            <div class="holder-role red sec" style="font-size: 12px">{{ info.role }}</div>
+            <div class="holder-department green sec" style="font-size: 11px">{{ info.department }}</div>
+            <div class="employee-signature sec">
               <img :src="info.signature" alt="signature">
-              <div style="font-size: 11px; margin-top; 5px;">
+              <div style="font-size: 11px; margin-top; 5px;" class="holder-sig">
                 <b>HOLDER'S SIGNATURE</b>
               </div>
             </div>
@@ -53,7 +53,7 @@
             <div class="boss">
             {{ back.branch }}
             </div>
-            <div class="barcode-spot" v-show="!info.id">
+            <div class="barcode-spot" v-show="info.id">
               <svg class="barcode"
                 :jsbarcode-value="info.id"
                 jsbarcode-width="2"
@@ -111,7 +111,149 @@ export default {
   },
   methods: {
     printID(){
-      Printjs(this.elemId, 'html')
+      Printjs({
+        printable: this.elemId,
+        type: 'html',
+        style: `
+          .card, .card2 {
+            height: 500px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            border-radius: 10px;
+            font-size: 10px;
+            text-align: center;
+            background-color: #fff;
+            font-weight: bold;
+            padding: 5px;
+            transform: scale(0.9);
+            position:relative;
+          }
+
+        .card {
+        text-transform: uppercase;
+          color: #000;
+        }
+        .green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+.image-holder{
+  border: 3px solid green;
+  width: 50%;
+  margin: 0 auto;
+  height: 170px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.image-holder img {
+  width: 100%;
+  transform: scale(1.1)
+}
+
+.holder-name {
+  font-weight: bold;
+  margin: 0 auto;
+  color: #000;
+  font-size: 10px;
+}
+
+.holder-department, .holder-role {
+  margin: 0 auto;
+  font-size: 10px;
+}
+
+
+.sec {
+  padding: 2px 0;
+}
+
+
+.abbr {
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.field {
+  font-size: 10px;
+}
+
+.card2 {
+  padding: 10px;
+  font-weight: bold;
+  color: #000;
+}
+
+.card2 > div {
+  margin-bottom: 20px;
+}
+
+.signature {
+  border-bottom: 2px solid #000;
+  /* height: 40px; */
+  overflow: hidden;
+}
+
+.signature img {
+  width: 100px;
+  height: 40px;
+}
+
+.expiry-date {
+  font-size: 10px;
+  position: absolute;
+  right: 3px;
+  bottom: 0;
+}
+
+.holder-sig {
+  font-size: 11px; 
+  margin-top; 5px;
+}
+
+.employee-signature {
+  overflow: hidden;
+  text-align: center;
+}
+
+.employee-signature img {
+  width: 100px;
+  height: 40px;
+}
+
+.found {
+  font-size: 15px;
+}
+
+.cert {
+  font-size: 15px;
+}
+
+.boss {
+  font-size: 16px;
+}
+
+.card2 .abbr {
+  font-size: 18px;
+} 
+
+.barcode-spot {
+  height: 55px;
+  overflow: hidden;
+  margin-top: -10px;
+  /* border: 2px solid red; */
+  margin-left: -5px; 
+  /* width: 200px; */
+}
+
+.barcode {
+  width: 290px;
+}
+        `
+      })
     },
     closeDisplay() {
       this.$emit('closePrev')
@@ -132,12 +274,6 @@ export default {
   margin-left: 5px;
 }
 
-.expiry-date {
-  font-size: 10px;
-  position: absolute;
-  right: 3px;
-  bottom: 0;
-}
 
 .cards {
   /* width: 80%; */
@@ -255,6 +391,13 @@ input[type=radio]::content {
 .signature img {
   width: 100px;
   height: 40px;
+}
+
+.expiry-date {
+  font-size: 10px;
+  position: absolute;
+  right: 3px;
+  bottom: 0;
 }
 
 .employee-signature {

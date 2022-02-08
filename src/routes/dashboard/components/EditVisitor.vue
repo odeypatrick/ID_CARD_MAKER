@@ -1,32 +1,32 @@
 <template>
   <div class="edit-page">
-      <!-- <center>
-          <h2 style="padding-bottom: 20px">Edit Record</h2>
-      </center> -->
       <form>
+          <h1 class="head">Edit Employee Record</h1>
+          <div class="error" v-if="error">
+              <span>{{ error }}</span>
+              <span class="close" @click="error = ''">&times;</span>
+          </div>
+          <div class="msg" v-if="msg">
+              <span>{{ msg }}</span>
+              <span class="close" @click="msg = ''">&times;</span>
+          </div>
         <div>
             <div>
                 <label>Name</label>
                 <div>
-                    <input type="text" placeholder="Name">
+                    <input type="text" placeholder="Name" v-model="info.name">
                 </div>
             </div>
             <div>
-                <label>Card No/ID</label>
+                <label>Card No/ID</label>   
                 <div>
-                    <input type="text" placeholder="Card ID">
+                    <input type="text" placeholder="Card ID" v-model="info.cardId">
                 </div>
             </div>
             <div>
                 <label>Department</label>
                 <div>
-                    <input type="text" placeholder="Department">
-                </div>
-            </div>
-            <div>
-                <label>Rank</label>
-                <div>
-                    <input type="text" placeholder="Rank">
+                    <input type="text" placeholder="Department" v-model="info.department">
                 </div>
             </div>
             <div>
@@ -35,21 +35,9 @@
                     <input type="file" ref="file">
                 </div>
             </div>
-            <div>
-                <label>Signature</label>
-                <div>
-                    <input type="file" ref="signature">
-                </div>
-            </div>
-            <div>
-                <label>Expiry Date</label>
-                <div>
-                    <input type="text" placeholder="07/23">
-                </div>
-            </div>
         </div>
         <div>
-            <button>
+            <button @click.prevent="editInfo">
                 Edit Record
             </button>
         </div>
@@ -58,19 +46,82 @@
 </template>
 
 <script>
-export default {
+import axios from 'axios'
 
+export default {
+    data(){
+        return {
+            info: {
+                id: "",
+                name: "",
+                cardId: "",
+                department: "",
+                prevImg: "",
+                image: ""
+            },
+            msg: "",
+            error: ""
+        }
+    },
+    created(){
+        axios.get(`https://nameless-basin-94170.herokuapp.com/api/record/${this.$route.params.id}`)
+        .then(res => {
+            this.info.id = res.data._id
+            this.info.name = res.data.name
+            this.info.cardId = res.data.cardId
+            this.info.department = res.data.department
+            this.info.prevImg = res.data.image
+        })
+    },
+    methods: {
+        editInfo() {
+            const formData = new FormData();
+            formData.append("name", this.info.name)
+            formData.append("cardId", this.info.cardId)
+            formData.append("department", this.info.department)
+            formData.append("prevImg", this.info.prevImg)
+            formData.append("image", this.info.image)
+            axios.put(`https://nameless-basin-94170.herokuapp.com/api/card/${this.info.id}/visitor`, formData)
+            .then(() => {
+                this.msg = "Info Updated",
+                setTimeout(() => {
+                    this.$router.push('/')
+                },1500)
+            })
+            .catch(err => {
+                console.log(err)
+                this.error = err
+            })
+        }
+    }
 }
 </script>
 
-<style>
+<style scoped>
+    .edit-page {
+        padding: 2em;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 2rem 4rem;
+        box-shadow: 0 0 6px 0 #ccc;
+        border-radius: 10px;
+    }
+
+    form h1 {
+        padding-bottom: 3rem;
+        font-size: 2rem;
+        text-align: center;
+    }
+
     form > div {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 1em;
     }
 
-    form > div:nth-child(2) {
+    form > div:nth-child(3) {
         text-align: center;
         margin-top: 10px;
         width: 100%;

@@ -7,7 +7,7 @@
             <h1 class="logo green">
               <img src="../../../assets/logo2.png" alt="" width="100">
             </h1>
-            <p class="green field">Federal Ministry of Communications and Digital Economy</p>
+            <p class="green field">Federal Ministry of Communication and Digital Economy</p>
             <p class="abbr">National Indentity Management Commission</p>
             <div class="id_number red">{{ info.id }}</div>
             <div class="image-holder">

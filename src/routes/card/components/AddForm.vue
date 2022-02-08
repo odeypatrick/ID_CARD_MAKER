@@ -160,14 +160,17 @@ export default {
                 this.info.department = ""
                 this.info.role = ""
                 this.file = ""
-                this.file2 = "",
-                this.info.image = "",
-                this.info.expiryDate = "",
+                this.file2 = ""
+                this.info.image = ""
+                this.info.expiryDate = ""
                 this.info.signature = ""
                 this.loading = false
                 this.msg = "Information Saved Successfully"
             })
-            .catch(err => this.error = err)
+            .catch(err => {
+                this.loading = false
+                this.error = err
+            })
         }
     }
 }

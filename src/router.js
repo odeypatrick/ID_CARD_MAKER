@@ -6,8 +6,7 @@ import History from './routes/history/History'
 import Settings from './routes/settings/Setting'
 import Login from './routes/auth/Login'
 import Edit from './routes/dashboard/components/Edit'
-
-const token = "123";
+import store from './store/store'
 
 const routes = [
     {
@@ -15,7 +14,7 @@ const routes = [
         name: "home",
         component: Dashboard,
         beforeEnter(to, from, next) {
-            if(token){
+            if(store.state.token){
                 next()
             } else {
                 next('/login')
@@ -27,7 +26,7 @@ const routes = [
         name: "login",
         component: Login,
         beforeEnter(to, from, next) {
-            if(!token){
+            if(!store.state.token){
                 next()
             } else {
                 next('/')
@@ -38,13 +37,20 @@ const routes = [
         path: '/edit/:id',
         name: "edit",
         component: Edit,
+        beforeEnter(to, from, next) {
+            if(store.state.token){
+                next()
+            } else {
+                next('/login')
+            }
+        }
     },
     {
         path: '/newcard',
         name: "newcard",
         component: NewCard,
         beforeEnter(to, from, next) {
-            if(token){
+            if(store.state.token){
                 next()
             } else {
                 next('/login')
@@ -56,7 +62,7 @@ const routes = [
         name: "history",
         component: History,
         beforeEnter(to, from, next) {
-            if(token){
+            if(store.state.token){
                 next()
             } else {
                 next('/login')
@@ -68,7 +74,7 @@ const routes = [
         name: "settings",
         component: Settings,
         beforeEnter(to, from, next) {
-            if(token){
+            if(store.state.token){
                 next()
             } else {
                 next('/login')

@@ -38,7 +38,11 @@
               Actions
           </div>
       </div>
-      <div class="data content" v-for="(person, index) in persons" :key="person._id" v-show="index <= 4">
+        <div class="no-rec" v-if="persons.length == 0">
+              <h1>Records Not Found</h1>
+        </div>
+      <div class="data content" v-for="(person, index) in persons" :key="person._id" v-show="index <= limit">
+          
           <div class="item user-pic">
               <img :src="person.picture" alt="" width="50">
           </div>
@@ -60,10 +64,10 @@
           </div>
 
           <div class="actions">
-              <button class="print"><i class="fa fa-eye"></i></button>
+              <button class="print"><i class="fa fa-eye" @click="previewCard(person)"></i></button>
               <!-- <button class="edit"><i class="fa fa-edit" @click="$router.push('/edit/' + person._id)"></i></button> -->
-              <router-link :to="`/edit/${person._id}`">Edit</router-link>
-              <button class="delete" @click="deleteRecord(person._id)"><i class="fa fa-trash"></i></button>
+              <router-link :to="`/edit/${person._id}`" v-if="user.role == 0">Edit</router-link>
+              <button class="delete" @click="deleteRecord(person._id)" v-if="user.role == 0"><i class="fa fa-trash"></i></button>
           </div>
       </div>
       </div>
@@ -84,10 +88,16 @@
 import axios from 'axios'
 export default {
     props: ['persons', 'limit'],
+    computed: {
+        user(){
+            return this.$store.getters.user
+        }
+    },
     data(){
         return {
             error: "",
-            type: 0
+            type: 0,
+            person: ""
         }
     },
     methods: {
@@ -102,9 +112,9 @@ export default {
         sortData(){
             this.$emit('sort-record', this.type);
         },
-        editInfo(person){
-            this.$emit('edit-info', person)
-            // console.log(123)
+        previewCard(person){
+            this.person = person
+            // show
         }
     }
 }
@@ -213,8 +223,15 @@ export default {
 }
 
 .actions button:hover {
-    background: rgb(114, 124, 162);
+    background: #727ca2;
 } 
+
+.no-rec {
+    display: flex;
+    justify-content: center;
+    color: #a2a2a2cc;
+    padding-top: 80px;
+}
 
 @media(max-width: 1000px) {
     .hide {

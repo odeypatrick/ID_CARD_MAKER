@@ -7,17 +7,16 @@
             <h1 class="logo green">
               <img src="../../../assets/logo2.png" alt="" width="100">
             </h1>
-            <p class="green field">Federal Ministry of Communications and Digital Economy</p>
+            <p class="green field">Federal Ministry of Communication and Digital Economy</p>
             <p class="abbr">National Indentity Management Commission</p>
             <div class="id_number red">{{ info.id }}</div>
             <div class="image-holder">
             <img :src="info.image ? info.image : require('../../../assets/noAvatar.png')" alt="">
             </div>
             <div class="holder-name">{{ info.name }}</div>
-            <div class="holder-department green" style="font-size: 11px">{{ info.department }}</div>
-            <div style="font-size: 9px; margin-top: 30px">
-              <h1>VISITOR'S ID CARD</h1>
-            </div>
+            <!-- <div class="holder-role red" style="font-size: 12px">{{ info.role }}</div>-->
+            <div class="holder-department green" style="font-size: 11px">VENDOR</div> 
+            <div class="holder-department" style="font-size: 15px; margin-top: 20px">{{ info.companyName }}</div> 
         </div>
         </div>
 
@@ -94,13 +93,13 @@ export default {
     return {
       elemId: 'card',
       back: {
-        declaration: "",
-        companyName: "",
-        address: "",
-        phoneNumber: "",
-        branch: "",
-        signature: ""
-    },
+          declaration: "",
+          companyName: "",
+          address: "",
+          phoneNumber: "",
+          branch: "",
+          signature: ""
+      },
     }
   },
   mounted () {
@@ -122,18 +121,8 @@ export default {
   background: #212627;
   padding: 0 0 10px 0;
   color: rgb(255, 255, 255);
+  /* border-radius: 30px; */
   height: 86vh;
-}
-
-.fa-times, .fa-print {
-  margin-left: 5px;
-}
-
-.expiry-date {
-  font-size: 10px;
-  position: absolute;
-  right: 3px;
-  bottom: 0;
 }
 
 .cards {
@@ -149,15 +138,6 @@ export default {
   margin-bottom: 10px;
 }
 
-input[type=radio] {
-  margin-left: 10px;
-}
-
-input[type=radio]::content {
-  /* column-fill: inherit; */
-  display: none;
-}
-
 .cards .card, .card2 {
   height: 500px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -166,8 +146,7 @@ input[type=radio]::content {
   background-color: #fff;
   font-weight: bold;
   padding: 5px;
-  transform: scale(0.9);
-  position:relative;
+  transform: scale(0.9)
 }
 
 .card {
@@ -206,29 +185,23 @@ input[type=radio]::content {
   font-weight: bold;
   margin: 0 auto;
   color: #000;
-  font-size: 14px;
 }
 
 .holder-department, .holder-role {
   margin: 0 auto;
-  font-size: 14px;
 }
-
 
 .card > div, p {
-  padding: 2px 0;
-  /* font-size: 14px; */
-  /* position: relative; */
+  padding: 4px 0;
+  font-size: 14px;
 }
-
-
 .abbr {
   font-weight: bold;
   font-size: 17px;
 }
 
 .field {
-  font-size: 10px;
+  font-size: 12px;
   /* color: #000; */
 }
 
@@ -245,23 +218,13 @@ input[type=radio]::content {
 
 .signature {
   border-bottom: 2px solid #000;
-  /* height: 40px; */
+  height: 40px;
   overflow: hidden;
 }
 
 .signature img {
   width: 100px;
-  height: 40px;
-}
-
-.employee-signature {
-  overflow: hidden;
-  text-align: center;
-}
-
-.employee-signature img {
-  width: 100px;
-  height: 40px;
+  height: 45px;
 }
 
 .found {
@@ -284,22 +247,19 @@ input[type=radio]::content {
   text-align: right;
   /* width: 80%; */
   margin: 20px;
-}
-
-.buttons button:hover {
-  transform: scale(1.03)
+  padding-bottom: 10px;
 }
 
 .edit {
   background-color: white;
-  border: none;
+  border: 1px solid #ccc;
   border-radius: 5px;
   margin-right: 10px;
   width: 100px;
 }
 
 .print {
-  background-color: #00b100;
+  background-color: green;
   width: 100px;
   color: #fff;
   border-radius: 5px;
@@ -317,7 +277,6 @@ input[type=radio]::content {
 .barcode {
   width: 290px;
 }
-
 @media(max-width: 1000px) {
   .cards {
     flex-direction: column;

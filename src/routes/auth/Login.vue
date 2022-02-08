@@ -6,27 +6,34 @@
           </div>
           <div class="form">
               <!-- <h1>Login</h1> -->
-              <div class="display" v-for="(msg, index) in msgs" :key="index" v-show="msg.length > 0">
-                  <p class="error" @click="deleteErr(index)">{{ msg }}</p>
+              <div class="display error" v-if="$store.state.loginError">
+                  <span>{{ $store.state.loginError }}</span>
+                  <span class="close" @click="$store.state.loginError = ''"><i class="fa fa-times"></i></span>
               </div>
+              <!-- <div class="msg" v-if="$store.state.loginSuccess">
+                  {{ $store.state.loginSuccess }}
+              </div> -->
               <form @submit.prevent="loginUser">
                   <div>
                       <label for="username">Username</label>
                       <div>
-                          <input type="text" id="username" placeholder="Type username...">
+                          <input type="text" id="username" placeholder="Type username..." v-model="username">
                       </div>
                   </div>
                   <div>
                       <label for="password">Password</label>
                       <div>
-                          <input type="password" id="password" placeholder="Type password...">
+                          <input type="password" id="password" placeholder="Type password..." v-model="password">
                       </div>
                   </div>
                   <div>
-                      <button class="btn">Login</button>
+                      <button class="btn">
+                          <span v-if="!$store.state.loading">Login</span>
+                          <img src="../../assets/spinner.gif" alt="loader" v-if="$store.state.loading" width="15">
+                      </button>
                   </div>
                   <div>
-                      <p>Could not login? <router-link to="/dashboard">Contact developer</router-link></p>
+                      <p>Cannot login? <router-link to="#">Contact developer</router-link></p>
                   </div>
               </form>
           </div>
@@ -35,7 +42,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
     name: "Login",
@@ -43,24 +50,12 @@ export default {
         return {
             username: "",
             password: "",
-            msgs: []
         }
     },
     methods: {
         loginUser(){
-            axios.post('https://localhost:5000/api/login', {
-                username: this.username,
-                password: this.password
-            })
-            .then(() => {
-                this.msg.push('successful')
-            })
-            .catch(err => {
-                this.msgs.push(`[Login failed] ${err}`)
-            })
-        },
-        deleteErr(index){
-            this.msgs.splice(index, 1)
+            this.$store.state.loading = true
+            this.$store.dispatch('login', { username: this.username, password: this.password })
         }
     }
 }
@@ -113,6 +108,7 @@ export default {
         border-radius: 5px;
         border: 2px solid#ccc;
         font-family: inherit;
+        outline-color: green;
         /* font-weight: ; */
     }
 
@@ -122,28 +118,32 @@ export default {
         color: #fff;
     }
 
+    form button:hover {
+        background-color: #00da00;
+    }
+
     .logo {
         text-align: center;
     }
 
-    .error {
-        padding: 10px;
+    .error span:first-child {
+        padding: 0 10px;
     }
     
     .msg {
         background-color: green;
         color: #fff;
-    }
-
-    .display {
-        position: absolute;
-        height: 400px;
         top: 0;
+        margin-top: 10px;
     }
 
-    .display > p {
-        margin-top: 10px;
-        position: relative;
-        cursor: pointer;
+
+    form a {
+        text-decoration: none;
+        color: #821f1f;
+    }
+
+    form a:hover {
+        font-weight: bold;
     }
 </style>

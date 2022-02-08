@@ -4,9 +4,10 @@
     <div class="body">
       <div class="track">
         <Track :employee="employee" :visitor="visitor" :vendor="vendor"/>
+        {{ $store.state.title }}
       </div>
       <div class="record">
-        <Records :persons="persons" :limit="true" v-on:get-records="getRecords" v-on:sort-record="sortRecord" v-on:edit-info="editInfo"/>
+        <Records :persons="persons" :limit="4" v-on:get-records="getRecords" v-on:sort-record="sortRecord"/>
         <!-- <center> -->
           <div class="error" v-if="error">
             <span class="err-text">
@@ -59,6 +60,7 @@ export default {
     }
   },
   created(){
+    this.$store.dispatch('fetchUser')
     this.getRecords()
   },
   methods: {
