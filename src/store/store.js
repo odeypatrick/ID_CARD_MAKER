@@ -47,13 +47,16 @@ const store = createStore({
 			axios.post('https://nameless-basin-94170.herokuapp.com/api/login', authData)
             .then((res) => {
                 state.loginSuccess = "Success"
+				state.loginError = ""
 				state.loading = false
 				console.log(res.data)
 				commit('loginUser', {
 					token: res.data.token,
 					userId: res.data._id
 				})
-				router.push('/');
+				setTimeout(() => {
+					router.push('/');
+				}, 1000)
             })
             .catch(err => {
                 state.loginError = `[Login failed] ${err}`

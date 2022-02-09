@@ -2,12 +2,26 @@
   <div class="dashboard">
     <Header v-on:search-records="searchRecords"/>
     <div class="body">
+      <div class="preview-box" v-if="showPreview == 1" v-show="showPrev">
+        <Preview :info="info" v-on:closePrev="closePreview"/>
+      </div>
+      <div class="preview-box" v-if="showPreview == 2" v-show="showPrev">
+        <VisitorPreview :info="info" v-on:closePrev="closePreview"/>
+      </div>
+      <div class="preview-box" v-if="showPreview == 3" v-show="showPrev">
+        <VendorPreview :info="info" v-on:closePrev="closePreview"/>
+      </div>
       <div class="track">
         <Track :employee="employee" :visitor="visitor" :vendor="vendor"/>
         {{ $store.state.title }}
       </div>
       <div class="record">
-        <Records :persons="persons" :limit="4" v-on:get-records="getRecords" v-on:sort-record="sortRecord"/>
+        <Records 
+          :persons="persons" 
+          :limit="4" v-on:get-records="getRecords" 
+          v-on:sort-record="sortRecord"
+          v-on:preview-card="previewCard"
+          />
         <!-- <center> -->
           <div class="error" v-if="error">
             <span class="err-text">
@@ -28,32 +42,29 @@ import axios from 'axios'
 import Header from '../../components/layout/Header.vue'
 import Records from './components/Records.vue'
 import Track from './components/Track.vue'
+import Preview from './components/preview/Employee.vue'
+import VisitorPreview from './components/preview/Visitor.vue'
+import VendorPreview from './components/preview/Vendor.vue'
 
 export default {
   components: {
     Header,
     Records,
-    Track
+    Track,
+    Preview,
+    VisitorPreview,
+    VendorPreview
   },
   data(){
     return {
       displayEdit: true,
       record: {},
-      persons: [
-          // { _id: 7357375883, name: "Japhet Suigurson", cardId: 'NIMC/P/KD/99', department: 'Operations', role: 'Operations Officer', type: 1 },
-          // { _id: 8335683383, name: "Selena Gomez", cardId: 'NIMC/P/KN/29', department: 'Research', role: 'Research Officer', type: 2 },
-          // { _id: 7365575883, name: "Faruq Akindoyin", cardId: 'NIMC/P/KD/43', department: 'Management', role: 'Intern', type: 1 },
-          // { _id: 3544656757, name: "Mohammed Usman", cardId: 'NIMC/P/LG/56', department: 'Operations', role: 'Head of Operations', type: 3 },
-          // { _id: 3544556757, name: "Ikenna Ugochukwu", cardId: 'NIMC/P/LG/56', department: 'Finance', role: 'Accountant', type: 1 }
-      ],
-      allPersons: [
-          // { _id: 7357375883, name: "Japhet Suigurson", cardId: 'NIMC/P/KD/99', department: 'Operations', role: 'Operations Officer', type: 1 },
-          // { _id: 8335683383, name: "Selena Gomez", cardId: 'NIMC/P/KN/29', department: 'Research', role: 'Research Officer', type: 2 },
-          // { _id: 7365575883, name: "Faruq Akindoyin", cardId: 'NIMC/P/KD/43', department: 'Management', role: 'Intern', type: 1 },
-          // { _id: 3544656757, name: "Mohammed Usman", cardId: 'NIMC/P/LG/56', department: 'Operations', role: 'Head of Operations', type: 3 },
-          // { _id: 3544556757, name: "Ikenna Ugochukwu", cardId: 'NIMC/P/LG/56', department: 'Finance', role: 'Accountant', type: 1 }
-      ],
+      persons: [],
+      allPersons: [],
       error: "",
+      showPreview: 0,
+      showPrev: false,
+      info: {},
       employee: 0,
       visitor: 0,
       vendor: 0
@@ -87,12 +98,41 @@ export default {
       this.persons = this.allPersons.filter((person) =>
         person.name.toLowerCase().includes(search.toLowerCase())
       );
+    },
+    previewCard(person) {
+      this.showPreview = true
+      this.info = person
+      if(person.type == 1) {
+        this.showPreview = 1
+        this.showPrev = true
+      }
+      if(person.type == 2) {
+        this.showPreview = 3
+        this.showPrev = true
+      }
+      if(person.type == 3) {
+        this.showPreview = 3
+        this.showPrev = true
+      }
+    },
+    closePreview(){
+      this.showPrev = false
     }
   }
 }
 </script>
 
 <style scoped>
+  .dashboard {
+    position: relative;
+  }
+
+  .preview-box {
+    position: absolute;
+    width: 98%;
+    z-index: 100;
+  }
+
   .body > div {
     margin-bottom: 50px;
   }

@@ -16,20 +16,19 @@
           <router-link to="/settings" active-class="active" exact><i class="fa fa-cog"></i> Settings</router-link>
       </div>
 
-      <a class="developer" href="#" target="_blank" @click.prevent="openLink">
-          powered by <span class="x">X</span>pert <span class="blue">Developers</span>
-      </a>
+      <p class="developer" href="#" target="_blank" @click="openLink">
+          powered by <span class="x">HUPDEV</span><span class="blue"></span>
+      </p>
   </div>
 </template>
 
 <script>
-// import * as electron from 'electron'
+import { shell } from 'electron'
 
 export default {
     methods: {
         openLink(){
-            require('electron').shell.openExternal("http://www.google.com")
-            // window.open("https://odeydev.netlify.app/");
+            shell.openExternal('https://odeydev.netlify.app/')
         }
     }
 }
@@ -83,7 +82,7 @@ export default {
     }
 
     .x {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: bold;
     }
 
@@ -96,6 +95,7 @@ export default {
         text-decoration: none;
         left: 20px;
         display: block;
+        cursor:pointer
     }
 
     .blue {

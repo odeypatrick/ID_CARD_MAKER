@@ -5,13 +5,13 @@
         <h3>Front View <input type="radio" value="card" v-model="elemId"> </h3>
         <div class="card" id="card">
             <h1 class="logo green">
-              <img src="../../../assets/logo2.png" alt="" width="100">
+              <img src="../../../../assets/logo2.png" alt="" width="100">
             </h1>
             <p class="green field">Federal Ministry of Communication and Digital Economy</p>
             <p class="abbr">National Indentity Management Commission</p>
-            <div class="id_number red">{{ info.id }}</div>
+            <div class="id_number red">{{ info.cardId }}</div>
             <div class="image-holder">
-            <img :src="info.image ? info.image : require('../../../assets/noAvatar.png')" alt="">
+            <img :src="info.picture ? info.picture : require('../../../../assets/noAvatar.png')" alt="">
             </div>
             <div class="holder-name">{{ info.name }}</div>
             <!-- <div class="holder-role red" style="font-size: 12px">{{ info.role }}</div>-->
@@ -45,7 +45,7 @@
             <div class="boss">
             {{ back.branch }}
             </div>
-            <div class="barcode-spot" v-show="info.id">
+            <div class="barcode-spot" v-show="info.cardId">
               <svg class="barcode"
                 :jsbarcode-value="info.id"
                 jsbarcode-width="2"
@@ -72,7 +72,7 @@ import axios from 'axios'
 // import * as fs from 'fs'
 
 export default {
-  name: 'NewCard',
+  name: 'VendorPreview',
   props: {
     info: Object,
     type: String

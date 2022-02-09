@@ -1,6 +1,7 @@
 {
   "name": "id-card-app",
   "version": "0.1.0",
+  "author": "Patrick Odey Joseph",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

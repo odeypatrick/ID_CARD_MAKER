@@ -126,7 +126,7 @@ export default {
             formData.append("phoneNumber", this.info.phoneNumber)
             formData.append("branch", this.info.branch)
             formData.append("signature", this.info.signature)
-            axios.post(`http://localhost:5000/api/card/structure`, formData)
+            axios.post(`https://nameless-basin-94170.herokuapp.com/api/card/structure`, formData)
             .then(() => {
                 this.msg = "Information Saved Successfully"
             })

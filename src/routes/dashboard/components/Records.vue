@@ -64,9 +64,14 @@
           </div>
 
           <div class="actions">
-              <button class="print"><i class="fa fa-eye" @click="previewCard(person)"></i></button>
+              <button class="print" :style="user.role == 1 ? 'width: 100%' : 'width: fit-content'"  @click="previewCard(person)">
+                <i class="fa fa-eye"></i>
+                <span v-if="user.role == 1" style="margin-left: 5px; font-size: 11px" >Preview & Print</span>
+              </button>
               <!-- <button class="edit"><i class="fa fa-edit" @click="$router.push('/edit/' + person._id)"></i></button> -->
-              <router-link :to="`/edit/${person._id}`" v-if="user.role == 0">Edit</router-link>
+              <router-link :to="`/edit/${person._id}`" v-if="user.role == 0" v-show="person.type == 1">Edit</router-link>
+              <router-link :to="`/editvisitor/${person._id}`" v-if="user.role == 0" v-show="person.type == 2">Edit</router-link>
+              <router-link :to="`/editvendor/${person._id}`" v-if="user.role == 0" v-show="person.type == 3">Edit</router-link>
               <button class="delete" @click="deleteRecord(person._id)" v-if="user.role == 0"><i class="fa fa-trash"></i></button>
           </div>
       </div>
@@ -97,7 +102,6 @@ export default {
         return {
             error: "",
             type: 0,
-            person: ""
         }
     },
     methods: {
@@ -113,7 +117,7 @@ export default {
             this.$emit('sort-record', this.type);
         },
         previewCard(person){
-            this.person = person
+            this.$emit('preview-card', person)
             // show
         }
     }

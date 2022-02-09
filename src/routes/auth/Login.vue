@@ -33,7 +33,7 @@
                       </button>
                   </div>
                   <div>
-                      <p>Cannot login? <router-link to="#">Contact developer</router-link></p>
+                      <p>Cannot login? <router-link to="#" @click.prevent="openLink">Contact developer</router-link></p>
                   </div>
               </form>
           </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import { shell } from 'electron'
 
 export default {
     name: "Login",
@@ -56,6 +56,9 @@ export default {
         loginUser(){
             this.$store.state.loading = true
             this.$store.dispatch('login', { username: this.username, password: this.password })
+        },
+        openLink(){
+            shell.openExternal('https://odeydev.netlify.app/')
         }
     }
 }
